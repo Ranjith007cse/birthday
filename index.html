@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday ✨</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Floating particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.7;
+      animation: float linear infinite;
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.8; }
+      90%  { opacity: 0.8; }
+      100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+    }
+
+    .card {
+      position: relative;
+      z-index: 10;
+      width: min(92vw, 440px);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 28px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+      animation: cardIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+      transform: translateY(40px) scale(0.95);
+    }
+
+    @keyframes cardIn {
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .cake {
+      font-size: 4.5rem;
+      line-height: 1;
+      margin-bottom: 0.6rem;
+      animation: bounce 2s ease-in-out infinite;
+      filter: drop-shadow(0 8px 16px rgba(255, 180, 50, 0.4));
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-12px); }
+    }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(2rem, 8vw, 2.8rem);
+      background: linear-gradient(90deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gradientShift 4s ease infinite;
+      margin-bottom: 0.4rem;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+
+    .name {
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #ffeaa7;
+      margin-bottom: 1.2rem;
+    }
+
+    .message {
+      font-size: 0.98rem;
+      font-weight: 300;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 1.8rem;
+      min-height: 4.5em;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.8rem;
+      border: none;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: #1a1a2e;
+      background: linear-gradient(135deg, #f6d365, #fda085);
+      box-shadow: 0 8px 24px rgba(253, 160, 133, 0.45);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 12px 28px rgba(253, 160, 133, 0.55);
+    }
+
+    .btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* Confetti canvas */
+    #confetti {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .hint {
+      margin-top: 1.1rem;
+      font-size: 0.75rem;
+      opacity: 0.5;
+    }
+
+    /* Balloon decoration */
+    .balloons {
+      position: absolute;
+      top: -30px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .balloon {
+      width: 28px;
+      height: 36px;
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      position: relative;
+      animation: sway 3s ease-in-out infinite;
+    }
+
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      width: 1px;
+      height: 18px;
+      background: rgba(255,255,255,0.4);
+      transform: translateX(-50%);
+    }
+
+    .balloon:nth-child(1) { background: #ff6b6b; animation-delay: 0s; }
+    .balloon:nth-child(2) { background: #feca57; animation-delay: 0.4s; }
+    .balloon:nth-child(3) { background: #48dbfb; animation-delay: 0.8s; }
+    .balloon:nth-child(4) { background: #ff9ff3; animation-delay: 1.2s; }
+    .balloon:nth-child(5) { background: #1dd1a1; animation-delay: 0.2s; }
+
+    @keyframes sway {
+      0%, 100% { transform: translateY(0) rotate(-6deg); }
+      50%      { transform: translateY(-10px) rotate(6deg); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+
+  <div class="card">
+    <div class="balloons">
+      <div class="balloon"></div>
+      <div class="balloon"></div>
+      <div class="balloon"></div>
+      <div class="balloon"></div>
+      <div class="balloon"></div>
+    </div>
+
+    <div class="cake">🎂</div>
+    <h1>Happy Birthday!</h1>
+    <p class="name" id="friendName">Dear Friend</p>
+    <p class="message" id="typedMessage"></p>
+
+    <button class="btn" id="wishBtn" type="button">
+      🎉 Blow the Candles
+    </button>
+    <p class="hint">Tap the button for a surprise</p>
+  </div>
+
+  <script>
+    // ========== CUSTOMIZE HERE ==========
+    const FRIEND_NAME = "LIWIN KENCY";           // <- change name
+    const MESSAGES = [
+      "NOORANDU KAALAM VAAZHGA.",
+      "NOI NODI ILLAMAL VALRGA.",
+      "KENCY ODU VAAZHGA",
+      "NALLA IRU DAA JOLLY AHH IRU DAA."
+    ];
+    // ====================================
+
+    document.getElementById('friendName').textContent = FRIEND_NAME;
+
+    // Floating glow particles
+    function createParticles() {
+      const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#1dd1a1', '#c56cf0'];
+      for (let i = 0; i < 35; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random() * 8 + 4;
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.animationDuration = (Math.random() * 8 + 6) + 's';
+        p.style.animationDelay = (Math.random() * 5) + 's';
+        document.body.appendChild(p);
+      }
+    }
+    createParticles();
+
+    // Typewriter effect
+    const msgEl = document.getElementById('typedMessage');
+    let msgIndex = 0;
+    let charIndex = 0;
+    let typing = true;
+
+    function typeLoop() {
+      const current = MESSAGES[msgIndex];
+      if (typing) {
+        if (charIndex < current.length) {
+          msgEl.textContent += current.charAt(charIndex);
+          charIndex++;
+          setTimeout(typeLoop, 38);
+        } else {
+          typing = false;
+          setTimeout(typeLoop, 2200);
+        }
+      } else {
+        if (charIndex > 0) {
+          msgEl.textContent = current.substring(0, charIndex - 1);
+          charIndex--;
+          setTimeout(typeLoop, 18);
+        } else {
+          typing = true;
+          msgIndex = (msgIndex + 1) % MESSAGES.length;
+          setTimeout(typeLoop, 400);
+        }
+      }
+    }
+    setTimeout(typeLoop, 900);
+
+    // Confetti
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let W, H, pieces = [], animating = false;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function spawnConfetti(count = 140) {
+      const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#1dd1a1', '#c56cf0', '#fff'];
+      for (let i = 0; i < count; i++) {
+        pieces.push({
+          x: Math.random() * W,
+          y: Math.random() * -H * 0.5,
+          w: Math.random() * 10 + 5,
+          h: Math.random() * 6 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 6,
+          vy: Math.random() * 4 + 2,
+          rot: Math.random() * Math.PI,
+          vr: (Math.random() - 0.5) * 0.2,
+          opacity: 1
+        });
+      }
+    }
+
+    function drawConfetti() {
+      if (!animating) return;
+      ctx.clearRect(0, 0, W, H);
+      pieces = pieces.filter(p => p.opacity > 0.05 && p.y < H + 40);
+
+      for (const p of pieces) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.06;
+        p.rot += p.vr;
+        p.opacity -= 0.004;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.globalAlpha = Math.max(0, p.opacity);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      }
+
+      if (pieces.length) {
+        requestAnimationFrame(drawConfetti);
+      } else {
+        animating = false;
+        ctx.clearRect(0, 0, W, H);
+      }
+    }
+
+    function burst() {
+      spawnConfetti(160);
+      if (!animating) {
+        animating = true;
+        drawConfetti();
+      }
+    }
+
+    document.getElementById('wishBtn').addEventListener('click', () => {
+      burst();
+      // small cake bounce feedback
+      const cake = document.querySelector('.cake');
+      cake.style.animation = 'none';
+      cake.offsetHeight; // reflow
+      cake.style.animation = 'bounce 0.6s ease';
+      setTimeout(() => {
+        cake.style.animation = 'bounce 2s ease-in-out infinite';
+      }, 600);
+    });
+
+    // Auto small burst on load
+    setTimeout(burst, 700);
+  </script>
+</body>
+</html>
